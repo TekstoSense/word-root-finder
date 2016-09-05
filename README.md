@@ -1,1 +1,5 @@
-# word-root-finder
+# Word Root Finder
+
+## License
+
+GNU
