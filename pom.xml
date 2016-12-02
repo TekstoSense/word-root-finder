@@ -5,54 +5,85 @@
 
 	<groupId>com.tekstosense.stemmer</groupId>
 	<artifactId>word-root-finder</artifactId>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
+
+	<properties>
+		<lucene.version>6.1.0</lucene.version>
+		<opennlp.version>1.6.0</opennlp.version>
+		<guava.version>19.0</guava.version>
+		<junit.version>4.12</junit.version>
+		<extjwnl.version>1.9.1</extjwnl.version>
+		<extjwnl-data.version>1.2</extjwnl-data.version>
+		<stanford-corenlp.version>3.5.2</stanford-corenlp.version>
+		<commons-logging.version>1.2</commons-logging.version>
+		<jcommander.version>1.48</jcommander.version>
+		<junit.version>4.12</junit.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>6.1.0</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-common</artifactId>
-			<version>6.1.0</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>6.1.0</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.opennlp</groupId>
 			<artifactId>opennlp-tools</artifactId>
-			<version>1.6.0</version>
+			<version>${opennlp.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>19.0</version>
+			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.extjwnl</groupId>
 			<artifactId>extjwnl</artifactId>
-			<version>1.9.1</version>
+			<version>${extjwnl.version}</version>
+		</dependency>
+		<dependency>
+		<groupId>net.sf.extjwnl</groupId>
+		<artifactId>extjwnl-data-wn31</artifactId>
+		<version>${extjwnl-data.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
-			<version>3.5.2</version>
+			<version>${stanford-corenlp.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>edu.stanford.nlp</groupId>
 			<artifactId>stanford-corenlp</artifactId>
-			<version>3.5.2</version>
+			<version>${stanford-corenlp.version}</version>
 			<classifier>models</classifier>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
+			<version>${commons-logging.version}</version>
+		</dependency>
+
+
+
+		<!-- opennlp-enhancer dependencies -->
+		<dependency>
+			<groupId>com.tekstosense</groupId>
+			<artifactId>opennlp-enhancer</artifactId>
+			<classifier>jar-with-dependencies</classifier>
+			<version>2.0.0</version>
+<!-- 			<scope>system</scope>
+			<systemPath>${basedir}/lib/opennlp-enhancer-2.0.0-jar-with-dependencies.jar</systemPath>
+ -->
 		</dependency>
 
 		<!--WSD Dependency -->
@@ -60,12 +91,19 @@
 			<groupId>jijsaw</groupId>
 			<artifactId>jigsaw</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+<!-- 			<scope>system</scope>
+			<systemPath>${basedir}/lib/jigsaw-0.0.1-SNAPSHOT.jar</systemPath>
+ -->
+
 		</dependency>
 		<dependency>
 			<groupId>nl.vu.few.SC-Disambiguation</groupId>
 			<artifactId>SyntacticWikipedia</artifactId>
-			<classifier>dependency</classifier>
+			<classifier>jar-with-dependencies</classifier>
 			<version>0.5</version>
+<!-- 			<scope>system</scope>
+			<systemPath>${basedir}/lib/SyntacticWikipedia-0.5-jar-with-dependencies.jar</systemPath>
+ -->
 		</dependency>
 
 		<!-- JCommander -->
@@ -73,16 +111,20 @@
 		<dependency>
 			<groupId>com.beust</groupId>
 			<artifactId>jcommander</artifactId>
-			<version>1.48</version>
+			<version>${jcommander.version}</version>
 		</dependency>
+
 
 		<!-- JUnit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+
+
 	</dependencies>
 	<build>
 		<plugins>
@@ -95,6 +137,31 @@
 					<target>8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>
+								com.tekstosense.stemmer.commandline.CLI
+							</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>
