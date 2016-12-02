@@ -30,6 +30,8 @@ Download and Build this dependency and include the dependency jar in lib folder.
 
 3. We use [opennlp-enhancer](https://github.com/TekstoSense/opennlp-enhancer) in case of opennlp tagger as an option. Jar is included in the lib. 
 
+4. Set TEKSTO_HOME as system environment path. Create Models folder and provide all Named-Entity models into that folder. This is required as we don't want any stemmed word for Named-Entity(Like person,place,organisation).
+
 
 ### Getting Started :
 - Command Line
@@ -38,7 +40,7 @@ Download and Build this dependency and include the dependency jar in lib folder.
 We can use the word-root finder from command line like :
 
 ```
-java -jar /home/tekstosense/word-root-finder/word-root-finder-2.0.0-jar-with-dependencies.jar -input "People were screaming and running down the steps to escape the flames. She runs much faster than he does" -wsdType "JIGSAW" -tagger "OpenNLP" -parser "OpenNLP" -model "/home/tekstosense/opennlp-enhancer/src/test/resources"
+java -jar /home/tekstosense/word-root-finder/word-root-finder-2.0.0-jar-with-dependencies.jar -input "People were screaming and running down the steps to escape the flames. She runs much faster than he does" -wsdType "JIGSAW" -tagger "OpenNLP" -parser "OpenNLP"
 
 ```
 
@@ -47,7 +49,6 @@ java -jar /home/tekstosense/word-root-finder/word-root-finder-2.0.0-jar-with-dep
 3. Input 3 (-tagger)  : Framework for tagging Named Entity. We have used Tekstosense [opennlp-enhancer](https://github.com/TekstoSense/opennlp-enhancer) module for entity tagging which is based on OpenNLP. 
                         Stanford can also be used as another options.(Stanford | OpenNLP)
 4. Input 4 (-parser)  : OpenNLP parser
-5. Input 5 (-model)   : if tagger(Input 3) is OpenNLP then model path is mandatory. Path for opennlp based named entity model files. 
 
 For command line operation copy jars available in lib folder as classpath jars. 
 
