@@ -8,6 +8,11 @@ approach to find root word. The semantic approach of finding Root word is very u
 
 Release version : 2.0.0 includes wordsense disambiguation based on [JIGSAW](http://aclweb.org/anthology/S/S07/S07-1088.pdf) and [Personalised Page Rank](http://www.aclweb.org/anthology/E09-1005). Our next release 3.0.0 will include Apache licensed Word sense disambiguation.
 
+## Architecture
+
+![Alt text](/PETD.jpg?raw=true "Personalised Stemmer")
+
+
 ## How to use Word Root Finder
 
 It is maven based project and you can build it with mvn clean install command.
@@ -61,10 +66,6 @@ We can also use API approach to call required methods:
 		System.out.println(itr.next());
 		
 ```		
-
-## Architecture
-
-![Alt text](/PETD.jpg?raw=true "Personalised Stemmer")
 
 ## License
 
