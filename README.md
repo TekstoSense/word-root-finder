@@ -62,6 +62,9 @@ We can also use API approach to call required methods:
 		
 ```		
 
+## Architecture
+
+![Alt text](/PETD.jpg?raw=true "Personalised Stemmer")
 
 ## License
 
