@@ -10,8 +10,7 @@ Release version : 2.0.0 includes wordsense disambiguation based on [JIGSAW](http
 
 ## How to use Word Root Finder
 
-Download the Source code
-Build- mvn clean install
+It is maven based project and you can build it with mvn clean install command.
 
 ### Dependencies
 The project requires JDK 1.8 and is built completely with Maven (althogh some of the dependencies are local). 
