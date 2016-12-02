@@ -23,7 +23,7 @@ Download and Build this dependency and include the dependency jar in lib folder.
 
 2. The WSD algorithm [JIGSAW](http://aclweb.org/anthology/S/S07/S07-1088.pdf) jar is included in lib folders.
 
-3. We use [opennlp-enhance](https://github.com/TekstoSense/opennlp-enhancer) in case of opennlp tagger as an option. Jar is included in the lib. 
+3. We use [opennlp-enhancer](https://github.com/TekstoSense/opennlp-enhancer) in case of opennlp tagger as an option. Jar is included in the lib. 
 
 
 ### Getting Started :
