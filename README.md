@@ -13,7 +13,15 @@ Release version : 2.0.0 includes wordsense disambiguation based on [JIGSAW](http
 Download the Source code
 Build- mvn clean install
 
-### Two mode of operation :
+### Dependencies
+The project requires JDK 1.8 and is built completely with Maven (althogh some of the dependencies are local). 
+
+The underlying WSD algorithm (Personalised Page Rank) requires Wordnet, we include Wordnet 3.0 in the data.dict package and read it from the jar (this is particularly useful when running in Hadoop).
+
+The WSD algorithm (JIGSAW) jar is included in lib folders.
+
+
+### Getting Started :
 - Command Line
 - API
 
