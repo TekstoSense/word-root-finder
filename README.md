@@ -1,10 +1,10 @@
 # Word Root Finder - A Semantic approach for stemming
 
-Word Root Finder API is based on our paper Personalised Terms Derivative(PETD) selected in a conference "International Conference on Information Technology" December 2016, IIIT Bhubaneswar, India. It will be available in IEEE explore very soon. You can also refer the article from our website [TekstoSense](https://www.tekstosense.com). Once we will get the DOI and IEEE link we will provide the link for the same.
+Word Root Finder API is based on our paper Personalised Terms Derivative(PETD) selected in the conference "International Conference on Information Technology" December 2016, IIIT Bhubaneswar, India. It will be available/indexed in IEEE explore very soon. You can also refer the article from our website [TekstoSense](https://www.tekstosense.com). 
 
-Word Root finder includes existing concept of linguistic and morphological stemming provided by PorterStemmer and K-Stem enriched with Semantic 
-approach to find root word. The semantic approach of finding Root word is very useful for many Search engine like Solr and Elastic Search. Refer our 
-[PETD](https://www.tekstosense.com) document for complete details.
+Word Root Finder includes existing concept of linguistic and morphological stemming provided by PorterStemmer and K-Stem enriched with Semantic approach to find root word. The semantic approach of finding Root word is very useful for many Search engine like Solr and Elastic Search. 
+
+Refer our [PETD](https://www.tekstosense.com) document for complete details.
 
 Release version : 2.0.0 includes wordsense disambiguation based on [JIGSAW](http://aclweb.org/anthology/S/S07/S07-1088.pdf) and [Personalised Page Rank](http://www.aclweb.org/anthology/E09-1005). Our next release 3.0.0 will include Apache licensed Word sense disambiguation.
 
