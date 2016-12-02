@@ -81,9 +81,9 @@
 			<artifactId>opennlp-enhancer</artifactId>
 			<classifier>jar-with-dependencies</classifier>
 			<version>2.0.0</version>
-<!-- 			<scope>system</scope>
+			<scope>system</scope>
 			<systemPath>${basedir}/lib/opennlp-enhancer-2.0.0-jar-with-dependencies.jar</systemPath>
- -->
+
 		</dependency>
 
 		<!--WSD Dependency -->
@@ -91,9 +91,9 @@
 			<groupId>jijsaw</groupId>
 			<artifactId>jigsaw</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-<!-- 			<scope>system</scope>
+			<scope>system</scope>
 			<systemPath>${basedir}/lib/jigsaw-0.0.1-SNAPSHOT.jar</systemPath>
- -->
+
 
 		</dependency>
 		<dependency>
