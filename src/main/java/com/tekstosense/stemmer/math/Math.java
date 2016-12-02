@@ -18,7 +18,7 @@ package com.tekstosense.stemmer.math;
 
 import static java.lang.Math.*;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Math.
  * @author TekstoSense

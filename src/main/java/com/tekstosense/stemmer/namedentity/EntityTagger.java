@@ -21,4 +21,5 @@ import com.google.common.collect.Multimap;
 public interface EntityTagger {
 
 	Multimap<String, String> annotateText(String text);
+	Multimap<String, String> annotateText(String text, String modelPath);
 }

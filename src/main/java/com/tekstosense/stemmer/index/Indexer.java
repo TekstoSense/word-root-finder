@@ -25,6 +25,8 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
@@ -45,6 +47,7 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.SimpleFSDirectory;
 
+import com.tekstosense.stemmer.namedentity.NLPEntityTagger;
 
 /**
  * The Class Indexer.
@@ -53,17 +56,25 @@ import org.apache.lucene.store.SimpleFSDirectory;
  */
 public class Indexer {
 
+	private static final Log LOGGER = LogFactory.getLog(Indexer.class);
+	private static final String INDEX_PATH = "/home/tekstosense/luceneIndex";
+
 	/**
 	 * The main method.
 	 *
-	 * @param args the arguments
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws QueryNodeException the query node exception
-	 * @throws ParseException the parse exception
+	 * @param args
+	 *            the arguments
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws QueryNodeException
+	 *             the query node exception
+	 * @throws ParseException
+	 *             the parse exception
 	 */
-	public static void main(String[] args) throws IOException, QueryNodeException, ParseException {
+	public static void main(String[] args) throws IOException,
+			QueryNodeException, ParseException {
 
-		//indexer();
+		// indexer();
 		searcher();
 
 	}
@@ -71,18 +82,23 @@ public class Indexer {
 	/**
 	 * Searcher.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
-	 * @throws QueryNodeException the query node exception
-	 * @throws ParseException the parse exception
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws QueryNodeException
+	 *             the query node exception
+	 * @throws ParseException
+	 *             the parse exception
 	 */
-	private static void searcher() throws IOException, QueryNodeException, ParseException {
-		Path indexDirectoryPath = new File("/home/rishi/luceneIndex").toPath();
+	private static void searcher() throws IOException, QueryNodeException,
+			ParseException {
+		Path indexDirectoryPath = new File(INDEX_PATH)
+				.toPath();
 		FSDirectory indexDirectory = new SimpleFSDirectory(indexDirectoryPath);
 		DirectoryReader ireader = DirectoryReader.open(indexDirectory);
 		IndexSearcher isearcher = new IndexSearcher(ireader);
 		QueryParser parser = new QueryParser("title", new StandardAnalyzer());
 		Query query = parser.parse("\"Lucene in Action\"");
-		
+
 		TopScoreDocCollector collector = TopScoreDocCollector.create(10);
 		isearcher.search(query, new PositiveScoresOnlyCollector(collector));
 		TopDocs topDocs = collector.topDocs();
@@ -92,9 +108,15 @@ public class Indexer {
 		for (ScoreDoc result : topDocs.scoreDocs) {
 			Document doc = isearcher.doc(result.doc, fields);
 
-			System.out.println("--- Title :  " + doc.getField("title").stringValue() + " ---");
-			System.out.println("--- ISBN : " + doc.getField("isbn").stringValue() + " ---");
-			System.out.println(isearcher.explain(query, result.doc));
+			if (LOGGER.isInfoEnabled()) {
+
+				LOGGER.info("--- Title :  "
+						+ doc.getField("title").stringValue() + " ---");
+				LOGGER.info("--- ISBN : " + doc.getField("isbn").stringValue()
+						+ " ---");
+				LOGGER.info(isearcher.explain(query, result.doc));
+			}
+
 		}
 
 	}
@@ -102,11 +124,13 @@ public class Indexer {
 	/**
 	 * Indexer.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	private static void indexer() throws IOException {
 		StandardAnalyzer analyzer = new StandardAnalyzer();
-		Path indexDirectoryPath = new File("/home/rishi/luceneIndex").toPath();
+		Path indexDirectoryPath = new File(INDEX_PATH)
+				.toPath();
 		FSDirectory indexDirectory = new SimpleFSDirectory(indexDirectoryPath);
 		IndexWriterConfig conf = new IndexWriterConfig(analyzer);
 
@@ -121,12 +145,17 @@ public class Indexer {
 	/**
 	 * Adds the doc.
 	 *
-	 * @param w the w
-	 * @param title the title
-	 * @param isbn the isbn
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param w
+	 *            the w
+	 * @param title
+	 *            the title
+	 * @param isbn
+	 *            the isbn
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
-	private static void addDoc(IndexWriter w, String title, String isbn) throws IOException {
+	private static void addDoc(IndexWriter w, String title, String isbn)
+			throws IOException {
 		Document doc = new Document();
 		doc.add(new TextField("title", title, Store.YES));
 		doc.add(new StringField("isbn", isbn, Store.YES));

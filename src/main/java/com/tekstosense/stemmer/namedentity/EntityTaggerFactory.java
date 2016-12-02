@@ -23,13 +23,30 @@ import java.util.Map;
 
 public class EntityTaggerFactory {
 
-	static Map<EntityTaggerType, EntityTagger> taggerMap;
-	static {
-		taggerMap = new HashMap<EntityTaggerType, EntityTagger>();
-		taggerMap.put(EntityTaggerType.Stanford, new StanfordEntityTagger());
-	}
+	private static final String ERROR = "Type is Null";
+	private static EntityTagger stanfordEntityTagger;
+	private static EntityTagger openNLPEntityTagger;
+
+	/*
+	 * static Map<EntityTaggerType, EntityTagger> taggerMap; static { taggerMap
+	 * = new HashMap<EntityTaggerType, EntityTagger>();
+	 * taggerMap.put(EntityTaggerType.Stanford, new StanfordEntityTagger());
+	 * 
+	 * //changes related to opennlp taggerMap.put(EntityTaggerType.OpenNLP, new
+	 * NLPEntityTagger()); }
+	 */
 
 	public static EntityTagger getEntityTagger(EntityTaggerType taggerType) {
-		return taggerMap.get(checkNotNull(taggerType, "Type is Null"));
+		// return taggerMap.get(checkNotNull(taggerType, ERROR));
+		if (taggerType == EntityTaggerType.Stanford) {
+			if (stanfordEntityTagger == null)
+				stanfordEntityTagger = new StanfordEntityTagger();
+			return stanfordEntityTagger;
+		} else if (taggerType == EntityTaggerType.OpenNLP) {
+			if (openNLPEntityTagger == null)
+				openNLPEntityTagger = new NLPEntityTagger();
+			return openNLPEntityTagger;
+		}
+		return null;
 	}
 }

@@ -57,4 +57,10 @@ public class StanfordEntityTagger implements EntityTagger {
 		StanfordEntityTagger tagger = new StanfordEntityTagger();
 		tagger.annotateText("Amitabh Harivansh Bachchan is an Indian film actor");
 	}
+
+	@Override
+	public Multimap<String, String> annotateText(String text, String modelPath) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

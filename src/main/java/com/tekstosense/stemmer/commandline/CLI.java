@@ -26,10 +26,39 @@ public class CLI {
 	public static void main(String[] args) throws Exception {
 		if (args.length == 0) {
 			System.out.println("Input needed...");
+			System.out.println("1:Input String(-input)");
+			System.out
+					.println("2:WSDType(-wsdType): PPR(Personalised Page Rank)/ JIGSAW(SVD based) \n"
+							+ "3: Tagger(-tagger) : Stanford /OpenNLP \n"
+							+ "4: Parser(-parser) : OpenNLP \n");
+			System.out
+					.println("5:Named Entity Model Path(-model) :For -tagger=OpenNLP provide model path, for -tagger=Stanford model path not required");
 			System.exit(1);
 		}
 		Params params = Params.getParams(args);
-		Analyzer analyzer = new Analyzer(WSDType.JIGSAW, EntityTaggerType.Stanford, ParserType.OpenNLP, params.getInput());
+
+		if (params.getWsdtype() != WSDType.JIGSAW
+				&& params.getWsdtype() != WSDType.PPR) {
+			System.err.println("Please enter valid WSDType : JIGSAW or PPR");
+			System.exit(1);
+
+		}
+		if (params.getTagger() != EntityTaggerType.OpenNLP
+				&& params.getTagger() != EntityTaggerType.Stanford) {
+			System.err
+					.println("Please enter valid EntityTagger : OpenNLP or Stanford");
+			System.exit(1);
+
+		}
+		if (params.getParserType() != ParserType.OpenNLP) {
+			System.err.println("Please enter valid Parser Type : OpenNLP");
+			System.exit(1);
+
+		}
+
+		Analyzer analyzer = new Analyzer(params.getWsdtype(),
+				params.getTagger(), params.getParserType(), params.getInput(),
+				params.getModelPath());
 		analyzer.analyseText();
 		System.out.println(analyzer.getStemedWords());
 	}

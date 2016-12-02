@@ -16,7 +16,9 @@
  *******************************************************************************/
 package com.tekstosense.stemmer.wsd;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+
 import gov.llnl.ontology.wordnet.Lemma;
 import gov.llnl.ontology.wordnet.Synset;
 import nl.vu.few.SyntacticWikipedia.WordAmbiguity;
@@ -30,37 +32,42 @@ import java.util.Set;
  * @author TekstoSense
  */
 public class WSDPPR implements WSD {
-    public static void main(String[] args) throws Exception {
-        WSDPPR wsdppr = new WSDPPR();
-        wsdppr.disambiguate("The overall infection rate was 83% and of those infected, 88% felt that they had a cold.");
-    }
 
-    @Override
-    public Multimap<String, String> disambiguate(String text) throws Exception {
-        WordDisambiguation wordDisambiguation = new WordDisambiguation();
-        wordDisambiguation.intit();
-        ArrayList<WordAmbiguity> disambiguate = wordDisambiguation.doMain(text);
-        /*disambiguate.stream().forEach(l -> {
-            System.out.println("--------------------" + l.getWord() + "--------------------");
-            l.getRealSense().getRelations(Synset.Relation.HYPERNYM).stream().forEach(
-                    a -> a.getLemmas().stream().forEach(
-                            k -> System.out.println(k.getLemmaName()
-                            ))
-            );
-        });*/
+	@Override
+	public Multimap<String, String> disambiguate(String text) throws Exception {
+		Multimap<String, String> disAmbi = ArrayListMultimap.create();
+		WordDisambiguation wordDisambiguation = new WordDisambiguation();
+		wordDisambiguation.intit();
+		ArrayList<WordAmbiguity> disambiguate = wordDisambiguation.doMain(text);
+		/*
+		 * disambiguate.stream().forEach(l -> {
+		 * System.out.println("--------------------" + l.getWord() +
+		 * "--------------------");
+		 * l.getRealSense().getRelations(Synset.Relation
+		 * .HYPERNYM).stream().forEach( a -> a.getLemmas().stream().forEach( k
+		 * -> System.out.println(k.getLemmaName() )) ); });
+		 */
 
-        for (WordAmbiguity ambiguity : disambiguate){
-            System.out.println("--------------------" + ambiguity.getWord() + "--------------------");
-            if(ambiguity.getRealSense() != null) {
-                Set<Synset> relations = ambiguity.getRealSense().getRelations(Synset.Relation.HYPERNYM);
-                for (Synset synset : relations) {
-                    List<Lemma> lemmas = synset.getLemmas();
-                    for (Lemma lemma : lemmas) {
-                        System.out.println(lemma.getLemmaName());
-                    }
-                }
-            }
-        }
-        return null;
-    }
+		for (WordAmbiguity ambiguity : disambiguate) {
+//			System.out.println("--------------------" + ambiguity.getWord()
+//					+ "--------------------");
+			if (ambiguity.getRealSense() != null) {
+				Set<Synset> relations = ambiguity.getRealSense().getRelations(
+						Synset.Relation.HYPERNYM);
+				for (Synset synset : relations) {
+					List<Lemma> lemmas = synset.getLemmas();
+					for (Lemma lemma : lemmas) {
+						disAmbi.put(ambiguity.getWord(), lemma.getLemmaName());
+						// System.out.println(lemma.getLemmaName());
+					}
+				}
+			}
+		}
+		return disAmbi;
+	}
+	public static void main(String[] args) throws Exception {
+		WSDPPR wsdppr = new WSDPPR();
+		wsdppr.disambiguate("People were screaming and running down the steps to escape the flames. She runs much faster than he does");
+	}
+
 }

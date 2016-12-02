@@ -18,11 +18,30 @@ package com.tekstosense.stemmer.commandline;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.tekstosense.stemmer.namedentity.EntityTaggerType;
+import com.tekstosense.stemmer.parser.ParserType;
+import com.tekstosense.stemmer.wsd.WSDType;
 
 public class Params {
 
-	@Parameter(names = "-input", description = "Input File Path")
+	@Parameter(names = "-input", description = "Input Text")
 	private String input;
+
+	@Parameter(names = "-wsdType", description = "Word Sense Disambiguation algorithm type")
+	private WSDType wsdtype;
+
+	@Parameter(names = "-tagger", description = "Entity Tagger")
+	private EntityTaggerType tagger;
+
+	@Parameter(names = "-parser", description = "Parser")
+	private ParserType parserType;
+
+	@Parameter(names = "-model", description = "Named Entity Model Path(Only for opennlp as tagger")
+	private String modelPath ;
+
+	public String getModelPath() {
+		return modelPath;
+	}
 
 	private Params(){}
 	
@@ -35,4 +54,16 @@ public class Params {
 	public String getInput() {
 		return input;
 	}
+	public WSDType getWsdtype() {
+		return wsdtype;
+	}
+
+	public EntityTaggerType getTagger() {
+		return tagger;
+	}
+
+	public ParserType getParserType() {
+		return parserType;
+	}
+
 }

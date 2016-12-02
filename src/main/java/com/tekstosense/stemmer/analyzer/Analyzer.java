@@ -16,7 +16,6 @@
  *******************************************************************************/
 package com.tekstosense.stemmer.analyzer;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.tekstosense.stemmer.namedentity.EntityTagger;
 import com.tekstosense.stemmer.namedentity.EntityTaggerFactory;
@@ -30,8 +29,6 @@ import com.tekstosense.stemmer.wsd.WSD;
 import com.tekstosense.stemmer.wsd.WSDFactory;
 import com.tekstosense.stemmer.wsd.WSDType;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,12 +42,32 @@ public class Analyzer {
 	private final Parser parser;
 	private final String text;
 	private Multimap<String, String> stemedWords;
+	private String model_path;
 
-	public Analyzer(WSDType dictionaryType, EntityTaggerType taggerType, ParserType parserType, String text) {
+	/*public Analyzer(WSDType dictionaryType, EntityTaggerType taggerType,
+			ParserType parserType, String text) {
 		this.wsd = WSDFactory.getWSD(dictionaryType);
 		this.entityTagger = EntityTaggerFactory.getEntityTagger(taggerType);
 		this.parser = ParserFactory.getEntityTagger(parserType);
 		this.text = text;
+	}*/
+
+	/**
+	 * This method is used in case of opennlp based NE required.
+	 * @param dictionaryType
+	 * @param taggerType
+	 * @param parserType
+	 * @param text - string 
+	 * @param modelPath -opennlp model path
+	 */
+	public Analyzer(WSDType dictionaryType, EntityTaggerType taggerType,
+			ParserType parserType, String text, String... modelPath) {
+		this.wsd = WSDFactory.getWSD(dictionaryType);
+		this.entityTagger = EntityTaggerFactory.getEntityTagger(taggerType);
+		this.parser = ParserFactory.getEntityTagger(parserType);
+		this.text = text;
+		if(modelPath.length!=0)
+		this.model_path = modelPath[0];
 	}
 
 	public void analyseText() throws Exception {
@@ -64,23 +81,45 @@ public class Analyzer {
 	}
 
 	private void buildStemmer() throws Exception {
+		
+		String[] entity = null;
+		if(model_path== null){
 
-		String[] entity = entityTagger.annotateText(text).asMap().entrySet().stream().filter(e -> !e.getKey().equalsIgnoreCase(NON_ENTITY))
-				.map(Map.Entry::getValue).flatMap(Collection::stream).toArray(String[]::new);
+		entity = entityTagger.annotateText(text).asMap().entrySet()
+				.stream().filter(e -> !e.getKey().equalsIgnoreCase(NON_ENTITY))
+				.map(Map.Entry::getValue).flatMap(Collection::stream)
+				.toArray(String[]::new);
+		}else {
+			entity = entityTagger.annotateText(text,model_path).asMap().entrySet()
+					.stream().filter(e -> !e.getKey().equalsIgnoreCase(NON_ENTITY))
+					.map(Map.Entry::getValue).flatMap(Collection::stream)
+					.toArray(String[]::new);
 
-		String[] parse = parser.parseText(text).asMap().entrySet().stream().filter(e -> e.getKey().startsWith(NOUN)).map(Map.Entry::getValue)
-				.flatMap(Collection::stream).toArray(String[]::new);
+		}
+		
 
+		String[] parse = parser.parseText(text).asMap().entrySet().stream()
+				.filter(e -> e.getKey().startsWith(NOUN))
+				.map(Map.Entry::getValue).flatMap(Collection::stream)
+				.toArray(String[]::new);
+
+		
 		this.stemmer = new KrovetzStemmer(entity, parse);
 	}
 
 	private void findRootWord() throws Exception {
 		Multimap<String, String> rootWords = this.wsd.disambiguate(this.text);
-		Set<String> rootwordSet = rootWords.keySet().stream().map(String::toLowerCase).collect(Collectors.toSet());
-		List<String> uniqueList = Arrays.stream(text.split("\\s+")).map(String::toLowerCase).filter(l -> !rootwordSet.contains(l)).collect(Collectors.toList());
+		Set<String> rootwordSet = new HashSet<String>();
+		rootWords.keySet().stream().forEach(r -> {
+			if (r != null && !r.isEmpty())
+				rootwordSet.add(r.toLowerCase());
+		});
+		List<String> uniqueList = Arrays.stream(text.split("\\s+"))
+				.map(String::toLowerCase).filter(l -> !rootwordSet.contains(l))
+				.collect(Collectors.toList());
 		for (String term : uniqueList) {
 			String stem = this.stemmer.stem(term);
-			rootWords.put(term,stem);
+			rootWords.put(term, stem);
 		}
 		this.stemedWords = rootWords;
 	}

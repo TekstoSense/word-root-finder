@@ -23,6 +23,8 @@ import java.util.Map;
 
 public class ParserFactory {
 
+	private static Parser openNLPParser;
+
 	static Map<ParserType, Parser> parserMap;
 	static {
 		parserMap = new HashMap<ParserType, Parser>();
@@ -30,6 +32,12 @@ public class ParserFactory {
 	}
 
 	public static Parser getEntityTagger(ParserType parserType) {
-		return parserMap.get(checkNotNull(parserType, "Type is Null"));
+		// return parserMap.get(checkNotNull(parserType, "Type is Null"));
+		if (parserType == ParserType.OpenNLP) {
+			if (openNLPParser == null)
+				openNLPParser = new OpenNLPParser();
+			return openNLPParser;
+		}
+		return null;
 	}
 }

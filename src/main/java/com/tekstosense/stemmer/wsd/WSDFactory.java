@@ -25,16 +25,27 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author TekstoSense
  */
 public class WSDFactory {
-    static Map<WSDType, WSD> wsdMap;
+	static Map<WSDType, WSD> wsdMap;
+	private static WSD wsdJigsaw;
+	private static WSD wsdPpr;
 
-    static {
+	/*
+	 * static {
+	 * 
+	 * wsdMap = new HashMap<WSDType, WSD>(); wsdMap.put(WSDType.JIGSAW, new
+	 * WSDJigsaw()); wsdMap.put(WSDType.PPR, new WSDPPR()); }
+	 */
 
-        wsdMap = new HashMap<WSDType, WSD>();
-        wsdMap.put(WSDType.JIGSAW, new WSDJigsaw());
-        wsdMap.put(WSDType.PPR, new WSDPPR());
-    }
-
-    public static WSD getWSD(WSDType type) {
-        return wsdMap.get(checkNotNull(type, "Type is Null"));
-    }
+	public static WSD getWSD(WSDType type) {
+		if (type == WSDType.JIGSAW) {
+			if (wsdJigsaw == null)
+				wsdJigsaw = new WSDJigsaw();
+			return wsdJigsaw;
+		} else if (type == WSDType.PPR) {
+			if (wsdPpr == null)
+				wsdPpr = new WSDPPR();
+			return wsdPpr;
+		}
+		return null;
+	}
 }
