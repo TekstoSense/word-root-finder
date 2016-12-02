@@ -17,7 +17,10 @@ Build- mvn clean install
 The project requires JDK 1.8 and is built completely with Maven (althogh some of the dependencies are local). 
 
 We support two algorithm :
-1. The underlying WSD algorithm (Personalised Page Rank) requires Wordnet, we include Wordnet 3.0 in the data.dict package and read it from the jar (this is particularly useful when running in Hadoop). We have used code available at [github] (https://github.com/alexandruasandei89/wsd-at-scale-wikipedia) for PPR.
+
+1. The underlying WSD algorithm (Personalised Page Rank) requires Wordnet, we include Wordnet 3.0 in the data.dict package and read it from the jar 
+   (this is  particularly useful when running in Hadoop). We have used code available at [github] (https://github.com/alexandruasandei89/wsd-at-scale-wikipedia) for PPR.
+Download and Build this dependency and include the dependency jar in lib folder.
 
 2. The WSD algorithm [JIGSAW](http://aclweb.org/anthology/S/S07/S07-1088.pdf) jar is included in lib folders.
 
