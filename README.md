@@ -26,7 +26,7 @@ java -jar /home/tekstosense/word-root-finder/word-root-finder-2.0.0-jar-with-dep
 
 1. Input 1 (-input)   : List of input words 
 2. Input 2 (-wsdType) : Algorithm for word sense disambiguation. We have used JIGSAW and Personalised Page Rank(PPR). (JIGSAW | PPR)
-3. Input 3 (-tagger)  : Framework for tagging Named Entity. We have used Tekstosense opennlp-enhancer module for entity tagging which is based on OpenNLP. 
+3. Input 3 (-tagger)  : Framework for tagging Named Entity. We have used Tekstosense [opennlp-enhancer](https://github.com/TekstoSense/opennlp-enhancer) module for entity tagging which is based on OpenNLP. 
                         Stanford can also be used as another options.(Stanford | OpenNLP)
 4. Input 4 (-parser)  : OpenNLP parser
 5. Input 5 (-model)   : if tagger(Input 3) is OpenNLP then model path is mandatory. Path for opennlp based named entity model files. 
